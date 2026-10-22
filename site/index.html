@@ -29,7 +29,7 @@
   .btn.alt { background:transparent; color:var(--green) !important; }
   .btn.alt:hover { background:var(--card); border-color:var(--green); }
   .btn.sm { padding:8px 14px; font-size:.9rem; }
-  .hero { padding:72px 0 40px; }
+  .hero { padding:72px 0 40px; display:grid; grid-template-columns:1.3fr 1fr; gap:32px; align-items:center; }
   .hero h1 { font-size:clamp(2rem,5.5vw,3.2rem); line-height:1.15; margin:0 0 14px; }
   .hero p.lead { font-size:1.15rem; color:var(--muted); max-width:560px; }
   .cta { display:flex; gap:12px; flex-wrap:wrap; margin-top:22px; }
@@ -103,6 +103,7 @@
         <span class="badge">Free</span><span class="badge">No personal data stored</span><span class="badge">Works on your phone</span>
       </div>
     </div>
+    <div class="hero-art" aria-hidden="true">🦉</div>
   </header>
 
   <section id="how">
@@ -232,7 +233,6 @@
 
   <section id="team">
     <h2>Meet the team</h2>
-    <p class="sub">Built by three students as a course project.</p>
     <div class="team">
       <div class="card person"><div class="avatar">PR</div><h3>Pooja Reddy</h3><div class="reg">25MIS0194</div></div>
       <div class="card person"><div class="avatar">YP</div><h3>Yogansh Palukuru</h3><div class="reg">25MIS0262</div></div>
