@@ -258,9 +258,11 @@
 </footer>
 
 <script>
+  const APP_URL = "https://wildlife-rescue-vit.streamlit.app";
   document.querySelectorAll("[data-app]").forEach(a => {
-    // open the app inside this site (see app.html)
-    a.href = "app.html" + (a.dataset.app ? "?p=" + a.dataset.app : "");
+    a.href = APP_URL + a.dataset.app;
+    a.target = "_blank";
+    a.rel = "noopener";
   });
 </script>
 </body>

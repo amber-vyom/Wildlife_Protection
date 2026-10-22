@@ -1,3 +1,15 @@
+---
+title: Wildlife Rescue
+emoji: 🦉
+colorFrom: green
+colorTo: green
+sdk: streamlit
+sdk_version: 1.66.1
+python_version: "3.12"
+app_file: app.py
+pinned: false
+---
+
 # Wildlife Rescue & Rehabilitation Management System
 
 A multi-page Streamlit site (SQLite backend) built from the Review-1 use cases and class diagram.
