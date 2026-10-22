@@ -72,8 +72,9 @@ def mark_all_read(user_id):
     x("UPDATE notification SET is_read=1 WHERE user_id=?", (user_id,))
 
 
-def audit_log(limit=200):
-    return q("""SELECT a.ts, COALESCE(u.name,'-') AS user, a.action, a.detail
+def audit_log(limit=1000):
+    return q("""SELECT a.ts, COALESCE(u.name,'System') AS user, COALESCE(u.role,'-') AS role,
+                       a.action, a.detail
                 FROM audit_log a LEFT JOIN users u USING(user_id) ORDER BY log_id DESC LIMIT ?""", (limit,))
 
 

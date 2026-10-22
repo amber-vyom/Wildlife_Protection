@@ -17,9 +17,16 @@ def me() -> dict:
     return st.session_state["user"]
 
 
+def _label(col: str) -> str:
+    words = col.replace("_", " ").split()
+    return " ".join(w.upper() if w in ("id", "gps") else w for w in words).capitalize().replace(" id", " ID")
+
+
 def table(rows, empty="Nothing here yet.", **kw):
     if rows:
-        st.dataframe(pd.DataFrame(rows), hide_index=True, **kw)
+        df = pd.DataFrame(rows)
+        df.columns = [_label(c) for c in df.columns]
+        st.dataframe(df, hide_index=True, **kw)
     else:
         st.info(empty)
 
@@ -496,19 +503,77 @@ def donations_admin_page():
         csv_button("Export (CSV)", rows, "donations.csv")
 
 
-def reports_page():
-    st.title(":material/analytics: Reports & audit")
-    r = m.report()
-    st.subheader("Operational summary")
-    table([{"Metric": "Open cases", "Value": r["open_cases"]},
-           {"Metric": "Animals admitted", "Value": sum(a["n"] for a in r["animals"])},
-           {"Metric": "Donations received", "Value": r["donations"]["n"]},
-           {"Metric": "Donation total", "Value": r["donations"]["total"]}])
-    csv_button("Export animals (CSV)", m.animals(), "animals.csv")
-    st.subheader("Audit log")
+ACTION_LABELS = {
+    "login": ("Signed in", ":material/login:"), "logout": ("Signed out", ":material/logout:"),
+    "lockout": ("Account locked", ":material/lock:"), "signup": ("Account created", ":material/person_add:"),
+    "password_change": ("Password changed", ":material/key:"), "password_reset": ("Password reset by admin", ":material/lock_reset:"),
+    "assign_agent": ("Agent assigned", ":material/assignment_ind:"), "create_user": ("Staff account created", ":material/badge:"),
+    "toggle_user": ("User enabled/disabled", ":material/manage_accounts:"), "reset_password": ("Password reset issued", ":material/lock_reset:"),
+    "permit": ("Permit recorded", ":material/description:"), "release": ("Release completed", ":material/forest:"),
+}
+
+
+def audit_page():
+    st.title(":material/policy: Audit log")
+    st.caption("A tamper-evident record of who did what and when. Entries cannot be edited from the app.")
     log = m.audit_log()
-    table(log, "No activity yet.")
-    csv_button("Export audit log (CSV)", log, "audit.csv")
+    for r in log:
+        r["event"] = ACTION_LABELS.get(r["action"], (r["action"].replace("_", " ").capitalize(), ""))[0]
+    cutoff = (pd.Timestamp.now() - pd.Timedelta(hours=24)).strftime("%Y-%m-%d %H:%M")
+    c = st.columns(4)
+    c[0].metric("Total events", len(log), border=True)
+    c[1].metric("Last 24 hours", sum(1 for r in log if r["ts"] >= cutoff), border=True)
+    c[2].metric("Sign-ins", sum(1 for r in log if r["action"] == "login"), border=True)
+    c[3].metric("Lockouts", sum(1 for r in log if r["action"] == "lockout"), border=True)
+    with st.container(border=True):
+        f1, f2, f3 = st.columns([2, 2, 3])
+        who = f1.selectbox("User", ["All users"] + sorted({r["user"] for r in log}))
+        what = f2.multiselect("Event type", sorted({r["event"] for r in log}), placeholder="All events")
+        text = f3.text_input("Search details", placeholder="e.g. case 3, permit, email")
+    rows = [r for r in log
+            if (who == "All users" or r["user"] == who)
+            and (not what or r["event"] in what)
+            and (not text or text.lower() in f"{r['detail']} {r['user']}".lower())]
+    st.caption(f"Showing {len(rows)} of {len(log)} events")
+    if rows:
+        df = pd.DataFrame(rows)[["ts", "user", "role", "event", "detail"]]
+        st.dataframe(df, hide_index=True, height=480, column_config={
+            "ts": st.column_config.TextColumn("Time", width="small"),
+            "user": "User", "role": "Role", "event": "Event", "detail": st.column_config.TextColumn("Details", width="large")})
+        csv_button("Export filtered log (CSV)", rows, "audit_log.csv")
+    else:
+        st.info("No events match these filters.")
+
+
+def reports_page():
+    st.title(":material/analytics: Reports")
+    st.caption("Operational summary for coordinators. Export any dataset for further analysis.")
+    r = m.report()
+    animals = m.animals()
+    released = sum(1 for a in animals if a["current_status"] == "Released")
+    admitted = len(animals)
+    c = st.columns(4)
+    c[0].metric("Animals admitted", admitted, border=True)
+    c[1].metric("Release rate", f"{(released / admitted * 100):.0f}%" if admitted else "-", border=True)
+    c[2].metric("Open cases", r["open_cases"], border=True)
+    c[3].metric("Donations received", f"{r['donations']['total']:.0f}", border=True)
+    a, b = st.columns(2)
+    with a.container(border=True):
+        st.subheader("Cases by status")
+        bar(r["cases"], "status", "n")
+    with b.container(border=True):
+        st.subheader("Animals by species")
+        bar(r["species"], "species", "n")
+    st.subheader("Data exports")
+    e = st.columns(4)
+    with e[0]:
+        csv_button("Animals", animals, "animals.csv")
+    with e[1]:
+        csv_button("Cases", m.cases(), "cases.csv")
+    with e[2]:
+        csv_button("Donations", m.donations(), "donations.csv")
+    with e[3]:
+        csv_button("Users", m.all_users(), "users.csv")
 
 
 # ---- animals ------------------------------------------------------------
