@@ -77,31 +77,61 @@ def bar(rows, index, value):
 
 
 # ---- public pages -------------------------------------------------------
+IMG = Path(__file__).parent / "site" / "img"
+
+
 def home():
-    st.title(":material/pets: Wildlife rescue & rehabilitation")
-    st.subheader("Found an injured or distressed animal? We'll send help.")
     s = m.public_stats()
-    c = st.columns(4)
-    c[0].metric("Animals rescued", s["rescued"])
-    c[1].metric("Currently in care", s["in_care"])
-    c[2].metric("Released / re-homed", s["released"] + 0)
-    c[3].metric("Active volunteers", s["volunteers"])
+    left, right = st.columns([3, 2], gap="large", vertical_alignment="center")
+    with left:
+        st.caption(":material/pets: WILDLIFE RESCUE & REHABILITATION")
+        st.title("See an injured animal? Help is one form away.")
+        st.markdown("Report distressed wildlife in a minute, with **no sign-up and no personal details**. "
+                    "Follow the rescue, treatment and release with a tracking code.")
+        c = st.columns(3)
+        c[0].page_link(PAGE["report"], label="Report an animal", icon=":material/report:", width="stretch")
+        c[1].page_link(PAGE["track"], label="Track a report", icon=":material/search:", width="stretch")
+        c[2].page_link(PAGE["signup"], label="Volunteer or donate", icon=":material/favorite:", width="stretch")
+    with right:
+        if (IMG / "tiger.jpg").exists():
+            st.image(str(IMG / "tiger.jpg"), alt="Bengal tiger resting in the forest", width="stretch")
+
     st.write("")
+    c = st.columns(4)
+    c[0].metric("Animals rescued", s["rescued"], border=True)
+    c[1].metric("Currently in care", s["in_care"], border=True)
+    c[2].metric("Released / re-homed", s["released"], border=True)
+    c[3].metric("Active volunteers", s["volunteers"], border=True)
+
+    st.divider()
+    st.header("How it works")
     steps = [
-        (":material/report:", "1. Report", "Tell us where the animal is and what you see. No sign-up and no personal details."),
-        (":material/local_shipping:", "2. Rescue", "A coordinator dispatches a field agent who captures and transports the animal."),
-        (":material/medical_services:", "3. Treat", "Vets diagnose and treat; caretakers feed, monitor and log its recovery."),
+        (":material/report:", "1. Report", "Tell us where the animal is and what you see. Add a photo or location."),
+        (":material/local_shipping:", "2. Rescue", "A coordinator dispatches a field agent who brings the animal in."),
+        (":material/medical_services:", "3. Treat", "Vets diagnose and treat; caretakers feed and monitor its recovery."),
         (":material/forest:", "4. Release", "With Forest Department permission, healthy animals return to the wild."),
     ]
     for col, (icon, title, text) in zip(st.columns(4), steps):
         with col.container(border=True, height="stretch"):
-            st.markdown(f"### {icon} {title}")
+            st.markdown(f"#### {icon} {title}")
             st.write(text)
-    st.write("")
-    a, b, c3 = st.columns(3)
-    a.page_link(PAGE["report"], label="Report an animal", icon=":material/report:", width="stretch")
-    b.page_link(PAGE["track"], label="Track a report", icon=":material/search:", width="stretch")
-    c3.page_link(PAGE["signup"], label="Volunteer or donate", icon=":material/favorite:", width="stretch")
+
+    photos = [("elephant", "Indian elephant"), ("peacock", "Indian peafowl"), ("owlet", "Spotted owlet"),
+              ("leopard", "Indian leopard")]
+    if all((IMG / f"{k}.jpg").exists() for k, _ in photos):
+        st.divider()
+        st.header("The animals we help")
+        for col, (key, name) in zip(st.columns(4), photos):
+            col.image(str(IMG / f"{key}.jpg"), caption=name, alt=name, width="stretch")
+        st.caption("Photos: Wikimedia Commons - Y. S. Krishnappa (CC BY-SA 3.0), K. Mondal (CC BY 4.0), "
+                   "M. Mottakin, T. Mukherjee, C. J. Sharp (CC BY-SA 4.0).")
+
+    st.divider()
+    with st.container(border=True):
+        a, b = st.columns([3, 1], vertical_alignment="center")
+        a.subheader("Want to help?")
+        a.write("Create a free account to volunteer your time or support the centre with a donation.")
+        b.page_link(PAGE["signup"], label="Create an account", icon=":material/person_add:", width="stretch")
 
 
 def report_page():

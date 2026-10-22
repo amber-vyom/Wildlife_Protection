@@ -33,7 +33,16 @@
   .hero h1 { font-size:clamp(2rem,5.5vw,3.2rem); line-height:1.15; margin:0 0 14px; }
   .hero p.lead { font-size:1.15rem; color:var(--muted); max-width:560px; }
   .cta { display:flex; gap:12px; flex-wrap:wrap; margin-top:22px; }
-  .hero-art { background:linear-gradient(135deg,var(--card),color-mix(in srgb,var(--green) 25%,var(--card))); border-radius:24px; aspect-ratio:1; display:grid; place-items:center; font-size:7rem; }
+  .hero-art { border-radius:24px; aspect-ratio:1; overflow:hidden; background:var(--card); }
+  .hero-art img { width:100%; height:100%; object-fit:cover; display:block; }
+  .gallery { display:grid; grid-template-columns:repeat(6,1fr); grid-auto-rows:200px; gap:14px; }
+  .gallery figure { margin:0; position:relative; overflow:hidden; border-radius:16px; grid-column:span 2; background:var(--card); }
+  .gallery figure.wide { grid-column:span 3; grid-row:span 2; }
+  .gallery img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .4s; }
+  .gallery figure:hover img { transform:scale(1.05); }
+  .gallery figcaption { position:absolute; left:0; right:0; bottom:0; padding:28px 12px 10px; color:#fff; font-size:.9rem; font-weight:600; background:linear-gradient(transparent,rgba(0,0,0,.65)); }
+  .credits { margin-top:12px; font-size:.78rem; color:var(--muted); }
+  @media (max-width:760px) { .gallery { grid-template-columns:1fr 1fr; grid-auto-rows:150px; } .gallery figure, .gallery figure.wide { grid-column:span 1; grid-row:span 1; } .gallery figure.wide { grid-column:span 2; } }
   .badges { display:flex; gap:10px; flex-wrap:wrap; margin-top:20px; }
   .badge { background:var(--card); border:1px solid var(--line); border-radius:999px; padding:4px 12px; font-size:.85rem; color:var(--muted); }
   section { padding:44px 0; }
@@ -80,6 +89,7 @@
     <a class="brand" href="#top">🦉 Wildlife Rescue</a>
     <div class="links">
       <a class="hide-sm" href="#how">How it works</a>
+      <a class="hide-sm" href="#animals">Animals</a>
       <a class="hide-sm" href="#features">Features</a>
       <a class="hide-sm" href="#articles">Articles</a>
       <a class="hide-sm" href="#team">Team</a>
@@ -103,7 +113,7 @@
         <span class="badge">Free</span><span class="badge">No personal data stored</span><span class="badge">Works on your phone</span>
       </div>
     </div>
-    <div class="hero-art" aria-hidden="true">🦉</div>
+    <div class="hero-art"><img src="img/tiger.jpg" alt="Bengal tiger resting in the forest"></div>
   </header>
 
   <section id="how">
@@ -115,6 +125,19 @@
       <div class="card"><span class="num">3</span><h3>Treat</h3><p>Vets diagnose and treat it. Caretakers feed, monitor and log its recovery every day.</p></div>
       <div class="card"><span class="num">4</span><h3>Release</h3><p>With Forest Department permission, healthy animals go back to the wild and can be tracked.</p></div>
     </div>
+  </section>
+
+  <section id="animals">
+    <h2>The animals we help</h2>
+    <p class="sub">From peacocks hit by traffic to owlets fallen from nests, every wild animal deserves a second chance.</p>
+    <div class="gallery">
+      <figure class="wide"><img src="img/elephant.jpg" alt="Indian elephant" loading="lazy"><figcaption>Indian elephant</figcaption></figure>
+      <figure><img src="img/peacock.jpg" alt="Indian peafowl" loading="lazy"><figcaption>Indian peafowl</figcaption></figure>
+      <figure><img src="img/owlet.jpg" alt="Spotted owlet" loading="lazy"><figcaption>Spotted owlet</figcaption></figure>
+      <figure><img src="img/leopard.jpg" alt="Indian leopard" loading="lazy"><figcaption>Indian leopard</figcaption></figure>
+      <figure><img src="img/tiger.jpg" alt="Bengal tiger" loading="lazy"><figcaption>Bengal tiger</figcaption></figure>
+    </div>
+    <p class="credits">Photos from Wikimedia Commons: Indian elephant by Yathin S Krishnappa (CC BY-SA 3.0); Indian peafowl by Kingshuk Mondal (CC BY 4.0); spotted owlet by Mojahid Mottakin (CC BY-SA 4.0); Indian leopard by Tisha Mukherjee (CC BY-SA 4.0); Bengal tiger by Charles J. Sharp (CC BY-SA 4.0).</p>
   </section>
 
   <section>
