@@ -13,5 +13,8 @@ baseRadius = "large"
 backgroundColor = "#08110c"
 secondaryBackgroundColor = "#14231a"
 
+[client]
+toolbarMode = "minimal"
+
 [server]
 maxUploadSize = 5

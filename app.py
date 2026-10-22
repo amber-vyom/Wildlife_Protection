@@ -13,7 +13,12 @@ from db import init_db
 
 SESSION_TIMEOUT = timedelta(minutes=30)
 
-st.set_page_config(page_title="Wildlife Rescue", page_icon=":material/pets:", layout="wide")
+st.set_page_config(page_title="Wildlife Rescue", page_icon=":material/pets:", layout="wide",
+                   menu_items={"Get help": None, "Report a bug": None, "About": "Wildlife Rescue & Rehabilitation Management System"})
+
+# Hide the hosting toolbar (Fork / GitHub / Share) so visitors only see the app
+st.html("<style>[data-testid='stToolbar'], [data-testid='stAppDeployButton'], [data-testid='stToolbarActions'], "
+        ".stAppToolbar a[href*='github.com'], ._profileContainer_gzau3_53, ._container_gzau3_1 { display:none !important; }</style>")
 init_db()
 
 
