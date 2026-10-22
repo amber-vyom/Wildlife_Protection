@@ -1,36 +1,71 @@
 # Wildlife Rescue & Rehabilitation Management System
 
-Streamlit + SQLite implementation of the Review-1 design (use cases and class diagram).
+A multi-page Streamlit site (SQLite backend) built from the Review-1 use cases and class diagram.
 
 ## Run
 ```bash
-pip install -r requirements.txt
-streamlit run app.py
+python -m pip install -r requirements.txt
+python -m streamlit run app.py
 ```
-The database (`wildlife.db`) is created and seeded on first run.
+The database (`wildlife.db`) is created and seeded on first run. If you have a database from the
+earlier version, it is rebuilt automatically (demo data only).
 
-## Demo logins
+## Accounts
+Anyone can sign up as a **Donor** or **Volunteer**. Staff accounts are created by a Coordinator
+(Staff & volunteers → Create staff account) and must change their temporary password at first sign-in.
+
+Demo accounts:
+
 | Role | Email | Password |
 |---|---|---|
-| Coordinator | coordinator@wild.org | coord123 |
-| Field Agent | agent@wild.org | agent123 |
-| Veterinarian | vet@wild.org | vet123 |
-| Caretaker | caretaker@wild.org | care123 |
-| Volunteer | volunteer@wild.org | vol123 |
-| Donor | donor@wild.org | donor123 |
+| Coordinator | coordinator@wild.org | Coord@123 |
+| Field Agent | agent@wild.org | Agent@123 |
+| Veterinarian | vet@wild.org | Vet@1234 |
+| Caretaker | caretaker@wild.org | Care@123 |
+| Volunteer | volunteer@wild.org | Volun@123 |
+| Donor | donor@wild.org | Donor@123 |
 
-Citizens report animals from the login page without an account.
+## Login & security
+- Salted PBKDF2-SHA256 password hashing (200k iterations), constant-time comparison
+- Password policy (8+ chars, letters and digits), email validation
+- Account lockout for 10 minutes after 5 failed attempts
+- 30-minute inactivity timeout; disabled accounts are signed out immediately
+- Forced password change for coordinator-created accounts and admin resets
+- Audit log of logins, lockouts, assignments, permits, releases and user changes
+- Sign-in is local (email + password). Sessions end on browser refresh.
 
-## Walkthrough
-1. Citizen reports an animal (public tab).
-2. Coordinator assigns a field agent (Rescue cases).
-3. Field agent advances the case: Assigned → Captured → At Centre.
-4. Vet or caretaker registers the animal at Intake (case closes).
-5. Vet diagnoses and creates a treatment plan; caretaker adds daily health logs.
-6. Vet completes the plan and assesses release readiness.
-7. Coordinator records the Forest Department permit and completes release or transfer.
+## Features
+**Public:** home with live stats, report an animal (urgency, map coordinates, photo, no personal data),
+tracking code to follow a report, success stories.
+
+**Coordinator:** dashboard with charts, prioritised case list with map and agent assignment, animals,
+release permits and post-release tracking, user management, tasks, training, attendance, inventory
+and equipment, donations, reports, CSV exports, audit log.
+
+**Field agent:** assigned cases, progress updates (Assigned → Captured → At Centre).
+
+**Veterinarian:** animal profiles, intake, diagnoses, treatment plans, surgery scheduling,
+release-readiness assessment.
+
+**Caretaker:** health logs with weight/temperature charts, daily feeding schedule, intake, inventory.
+Unwell readings alert the vets automatically.
+
+**Volunteer:** task list, check-in/out attendance, training record.
+
+**Donor:** donate, history, downloadable receipts.
+
+All roles get in-app notifications and a profile page.
+
+## Business rules
+- A case cannot advance until an agent is assigned; closing happens at intake.
+- Enclosure capacity cannot be exceeded.
+- No release-ready mark while a treatment plan is active or a surgery is scheduled.
+- Release needs a Forest Department permit number; only released animals can be tracked.
 
 ## Layout
-- `db.py` - schema, helpers, seed data
+- `app.py` - navigation, session checks, role-based menus
+- `views.py` - all pages
 - `models.py` - business rules (controllers + entities)
-- `app.py` - Streamlit UI, role-based menus
+- `auth.py` - hashing, lockout, signup, audit
+- `db.py` - schema, helpers, seed data
+- `.streamlit/config.toml` - theme
