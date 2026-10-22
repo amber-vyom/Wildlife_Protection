@@ -17,7 +17,7 @@
   html { scroll-behavior:smooth; }
   body { margin:0; font-family:system-ui,-apple-system,"Segoe UI",sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
   a { color:var(--green); }
-  .wrap { max-width:1040px; margin:0 auto; padding:0 16px; }
+  .wrap { max-width:1280px; margin:0 auto; padding:0 24px; }
   nav { position:sticky; top:0; z-index:10; background:color-mix(in srgb,var(--bg) 92%,transparent); backdrop-filter:blur(8px); border-bottom:1px solid var(--line); }
   nav .wrap { display:flex; align-items:center; justify-content:space-between; height:60px; gap:12px; }
   .brand { font-weight:700; text-decoration:none; color:var(--text); font-size:1.1rem; }
@@ -54,6 +54,23 @@
   .tip { border-left:4px solid var(--green); background:var(--card); padding:14px 18px; border-radius:0 12px 12px 0; }
   footer { border-top:1px solid var(--line); margin-top:40px; padding:28px 0 40px; color:var(--muted); font-size:.9rem; }
   footer .row { display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+  .articles { display:grid; grid-template-columns:repeat(auto-fit,minmax(270px,1fr)); gap:18px; }
+  article.card { display:flex; flex-direction:column; }
+  article .tag { font-size:.75rem; text-transform:uppercase; letter-spacing:.06em; color:var(--green); font-weight:700; }
+  article h3 { margin:6px 0 8px; font-size:1.15rem; }
+  article details { background:transparent; border:0; padding:0; margin:10px 0 0; }
+  article details summary { color:var(--green); font-weight:600; }
+  article details p, article details li { color:var(--text); font-size:.95rem; }
+  article ul { padding-left:20px; margin:8px 0 0; }
+  .meta { margin-top:auto; padding-top:12px; font-size:.8rem; color:var(--muted); }
+  .team { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:18px; }
+  .person { text-align:center; }
+  .avatar { width:76px; height:76px; border-radius:50%; background:var(--green); color:#fff; display:grid; place-items:center; font-size:1.7rem; font-weight:700; margin:0 auto 12px; }
+  .person .reg { color:var(--muted); font-size:.9rem; }
+  .about { display:grid; grid-template-columns:1fr 1fr; gap:32px; align-items:start; }
+  .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:14px; }
+  .stat { text-align:center; } .stat b { display:block; font-size:2rem; color:var(--green); }
+  @media (max-width:900px) { .about { grid-template-columns:1fr; } }
   @media (max-width:760px) { .hero { grid-template-columns:1fr; padding-top:40px; } .hero-art { display:none; } .links .hide-sm { display:none; } }
 </style>
 </head>
@@ -64,6 +81,8 @@
     <div class="links">
       <a class="hide-sm" href="#how">How it works</a>
       <a class="hide-sm" href="#features">Features</a>
+      <a class="hide-sm" href="#articles">Articles</a>
+      <a class="hide-sm" href="#team">Team</a>
       <a class="hide-sm" href="#faq">FAQ</a>
       <a class="btn sm" data-app="/report" href="#">Report an animal</a>
     </div>
@@ -120,6 +139,105 @@
       <h2>Want to help?</h2>
       <p>Create a free account to volunteer your time or support the centre with a donation.</p>
       <a class="btn" data-app="/signup" href="#">Create an account</a>
+    </div>
+  </section>
+
+  <section id="articles">
+    <h2>Articles & guides</h2>
+    <p class="sub">Practical advice for people who share space with wildlife.</p>
+    <div class="articles">
+      <article class="card">
+        <span class="tag">Guide</span>
+        <h3>What to do when you find an injured animal</h3>
+        <p>Your first few minutes matter, but so does your own safety.</p>
+        <details><summary>Read more</summary>
+          <ul>
+            <li>Keep a safe distance. Injured animals are frightened and may bite, scratch or kick.</li>
+            <li>Keep people, children and pets away, and keep noise low.</li>
+            <li>Do not feed or give water unless a rescuer tells you to.</li>
+            <li>Note the exact location, the species if you know it, and what the injury looks like. A photo helps.</li>
+            <li>Report it right away and keep your tracking code.</li>
+          </ul>
+        </details>
+        <div class="meta">3 min read</div>
+      </article>
+      <article class="card">
+        <span class="tag">Safety</span>
+        <h3>Snakes, monkeys and large animals: stay back</h3>
+        <p>Some rescues need trained people and special equipment.</p>
+        <details><summary>Read more</summary>
+          <p>Never try to catch, move or corner a snake, a monkey, a large mammal or a bird of prey yourself. Most bites and injuries happen during untrained rescue attempts. Stay at a distance, keep watching from a safe place, and give rescuers a clear description of where the animal is and which way it moved. If the animal is on a road, warn traffic from a safe spot rather than approaching it.</p>
+        </details>
+        <div class="meta">2 min read</div>
+      </article>
+      <article class="card">
+        <span class="tag">Birds</span>
+        <h3>Is that baby bird really abandoned?</h3>
+        <p>Many young birds on the ground are fine and their parents are nearby.</p>
+        <details><summary>Read more</summary>
+          <p>Fledglings often leave the nest before they can fly well and spend a few days on the ground while their parents keep feeding them. Leave them alone unless they are visibly injured, bleeding, covered in insects or in immediate danger from traffic or cats. A fully feathered bird that hops and flaps is usually a healthy fledgling. A bird with few or no feathers that has fallen from a nest may need help, so report it.</p>
+        </details>
+        <div class="meta">2 min read</div>
+      </article>
+      <article class="card">
+        <span class="tag">Behind the scenes</span>
+        <h3>From rescue to release: the journey of a rescued animal</h3>
+        <p>What happens after the animal reaches the centre.</p>
+        <details><summary>Read more</summary>
+          <p>After capture, the animal is admitted and placed in a suitable enclosure, in quarantine if needed. A veterinarian examines it, records a diagnosis and writes a treatment plan, and surgery is scheduled if required. Caretakers feed it, log its weight, temperature and behaviour every day, and alert the vet if something looks wrong. When the vet judges it fit, the centre applies for Forest Department permission. Only then is the animal released, or moved to a sanctuary if it can't return to the wild.</p>
+        </details>
+        <div class="meta">3 min read</div>
+      </article>
+      <article class="card">
+        <span class="tag">Community</span>
+        <h3>Five ways to help without touching an animal</h3>
+        <p>You can support wildlife rescue even if you never find an injured animal.</p>
+        <details><summary>Read more</summary>
+          <ul>
+            <li>Volunteer for shifts such as cleaning, food preparation or transport support.</li>
+            <li>Donate money, or supplies such as bandages and food.</li>
+            <li>Share the reporting page so more people know where to turn.</li>
+            <li>Drive carefully near forests and at dusk, when animals cross roads.</li>
+            <li>Keep litter, fishing line and nets out of lakes and green spaces.</li>
+          </ul>
+        </details>
+        <div class="meta">2 min read</div>
+      </article>
+      <article class="card">
+        <span class="tag">Law</span>
+        <h3>Why release needs Forest Department permission</h3>
+        <p>Wild animals are protected, and where they go back matters.</p>
+        <details><summary>Read more</summary>
+          <p>Wildlife is protected by law, so a rescue centre cannot simply release an animal wherever it likes. The Forest Department checks that the animal can be released into a suitable habitat of its own species, away from conflict with people. Our system records the permit number against each release, and an animal cannot be marked as released without one.</p>
+        </details>
+        <div class="meta">2 min read</div>
+      </article>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="about">
+      <div>
+        <h2>About this project</h2>
+        <p class="sub">Wildlife Rescue and Rehabilitation Management System is a student project that brings the whole rescue process into one place: reporting, dispatch, medical care, daily care, release and the operations behind them.</p>
+        <p class="sub">It was designed with use cases, a class diagram and role-based access, then built as a working web app.</p>
+      </div>
+      <div class="card stats">
+        <div class="stat"><b>7</b>user roles</div>
+        <div class="stat"><b>7</b>use-case areas</div>
+        <div class="stat"><b>20</b>data tables</div>
+        <div class="stat"><b>100%</b>free to report</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="team">
+    <h2>Meet the team</h2>
+    <p class="sub">Built by three students as a course project.</p>
+    <div class="team">
+      <div class="card person"><div class="avatar">PR</div><h3>Pooja Reddy</h3><div class="reg">25MIS0194</div></div>
+      <div class="card person"><div class="avatar">YP</div><h3>Yogansh Palukuru</h3><div class="reg">25MIS0262</div></div>
+      <div class="card person"><div class="avatar">VG</div><h3>Vyom Gupta</h3><div class="reg">25MIS0494</div></div>
     </div>
   </section>
 
