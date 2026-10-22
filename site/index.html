@@ -53,8 +53,6 @@
   .hero { min-height:calc(100vh - 66px); display:flex; flex-direction:column; justify-content:center; padding:48px 0 72px; max-width:820px; }
   .eyebrow { display:inline-flex; align-items:center; gap:8px; padding:6px 14px; border-radius:999px; background:var(--glass); border:1px solid var(--glass-b);
              color:var(--green); font-size:.85rem; font-weight:600; width:fit-content; backdrop-filter:blur(8px); }
-  .eyebrow i { width:8px; height:8px; border-radius:50%; background:var(--green); box-shadow:0 0 0 0 rgba(111,211,122,.7); animation:pulse 2s infinite; }
-  @keyframes pulse { 70% { box-shadow:0 0 0 10px rgba(111,211,122,0); } 100% { box-shadow:0 0 0 0 rgba(111,211,122,0); } }
   h1 { font-size:clamp(2.4rem,6.5vw,4.6rem); line-height:1.06; margin:18px 0 18px; font-weight:800; letter-spacing:-.02em; color:#fff; text-shadow:0 4px 30px rgba(0,0,0,.45); }
   h1 em { font-style:normal; background:linear-gradient(120deg,#b9f6bf,var(--green) 55%,#e9ffd0); -webkit-background-clip:text; background-clip:text; color:transparent; }
   .lead { font-size:clamp(1.05rem,2vw,1.3rem); color:#d5e3d2; max-width:620px; text-shadow:0 2px 16px rgba(0,0,0,.5); }
@@ -140,7 +138,7 @@
   }
   @media (prefers-reduced-motion:reduce) {
     .wall .slide.on { animation:none; } .reveal { opacity:1; transform:none; transition:none; }
-    .eyebrow i, .scroll span::after { animation:none; } #fireflies { display:none; }
+    .scroll span::after { animation:none; } #fireflies { display:none; }
   }
 </style>
 </head>
@@ -173,7 +171,7 @@
 <main id="top">
   <div class="wrap">
     <header class="hero">
-      <span class="eyebrow"><i></i> Rescue requests answered around the clock</span>
+      <span class="eyebrow">Rescue requests answered around the clock</span>
       <h1>See an injured animal?<br><em>Help is one form away.</em></h1>
       <p class="lead">Report distressed wildlife in a minute, with no sign-up and no personal details. Follow the rescue, treatment and release with a tracking code.</p>
       <div class="cta">
