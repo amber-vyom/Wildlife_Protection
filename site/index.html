@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wildlife Rescue</title>
+<meta name="description" content="Report injured wildlife and follow its rescue, treatment and release.">
+<style>
+  :root { --green:#2e7d32; --bg:#fbfdf9; --card:#eef5ea; --text:#1f2a1f; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#121a12; --card:#1c2a1c; --text:#e8f0e6; --green:#66bb6a; } }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.5; }
+  main { max-width:960px; margin:0 auto; padding:0 16px 48px; }
+  header { padding:64px 0 32px; }
+  h1 { font-size:clamp(2rem,6vw,3rem); margin:0 0 12px; }
+  p.lead { font-size:1.15rem; max-width:620px; }
+  .btn { display:inline-block; margin:8px 8px 0 0; padding:12px 22px; border-radius:8px; background:var(--green);
+         color:#fff; text-decoration:none; font-weight:600; }
+  .btn.alt { background:transparent; color:var(--green); border:2px solid var(--green); }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px; margin-top:40px; }
+  .card { background:var(--card); border-radius:12px; padding:20px; }
+  .card h3 { margin:0 0 6px; }
+  footer { margin-top:48px; font-size:.9rem; opacity:.75; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Wildlife rescue &amp; rehabilitation</h1>
+    <p class="lead">Found an injured or distressed animal? Report it in a minute. No sign-up, no personal details. Follow its rescue, treatment and release.</p>
+    <!-- Set this to your deployed Streamlit app URL -->
+    <a class="btn" id="app" href="#">Open the app</a>
+    <a class="btn alt" id="report" href="#">Report an animal</a>
+  </header>
+  <section class="grid">
+    <div class="card"><h3>1. Report</h3><p>Tell us where the animal is and what you see.</p></div>
+    <div class="card"><h3>2. Rescue</h3><p>A coordinator dispatches a field agent.</p></div>
+    <div class="card"><h3>3. Treat</h3><p>Vets and caretakers treat and monitor recovery.</p></div>
+    <div class="card"><h3>4. Release</h3><p>With Forest Department permission, animals return to the wild.</p></div>
+  </section>
+  <footer>Wildlife Rescue and Rehabilitation Management System · Pooja Reddy, Yogansh Palukuru, Vyom Gupta</footer>
+</main>
+<script>
+  const APP_URL = "https://YOUR-APP-NAME.streamlit.app"; // <- replace after deploying on Streamlit Cloud
+  document.getElementById("app").href = APP_URL;
+  document.getElementById("report").href = APP_URL + "/report";
+</script>
+</body>
+</html>
